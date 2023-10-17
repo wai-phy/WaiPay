@@ -28,6 +28,8 @@
                             <th>Email</th>
                             <th>Phone</th>
                             <th>Role</th>
+                            <th>IP</th>
+                            <th>User Agent</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -65,6 +67,8 @@
             {data: 'email', name: 'email'},
             {data: 'phone', name: 'phone'},
             {data: 'role', name: 'role'},
+            {data: 'ip', name: 'ip'},
+            {data: 'user_agent', name: 'user_agent'},
             {data: 'action', name: 'action'},
         ]
 
