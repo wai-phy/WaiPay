@@ -75,7 +75,7 @@
         e.preventDefault();
 
         var id = $(this).data('id')
-
+        var userURL = $(this).data('url');
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You want to delete this!",
@@ -87,7 +87,7 @@
             }).then((result) => {
               if (result.isConfirmed) {
                 $.ajax({
-                  url : "/backend/admin/delete/{id}" ,
+                  url : userURL ,
                   type : 'DELETE',
                   success : function(){
                     table.ajax.reload();

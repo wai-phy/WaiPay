@@ -17,6 +17,7 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if(!empty(Auth::user())){
+            
             if(url()->current() == route('auth#login') || url()->current() == route('auth#register')){
                 return back();
             }
@@ -24,9 +25,10 @@ class AdminMiddleware
             if(Auth::user()->role == 'user'){
                 return back();
             }
+            
             return $next($request);
         }
-        
+
         return $next($request);
     }
 }

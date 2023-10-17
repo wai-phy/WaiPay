@@ -19,7 +19,13 @@ class AuthController extends Controller
     }
 
     //dashboard
-    public function dashboard(){
+    public function dashboard(Request $request){
+        
+        $user = Auth::user();
+        $user->ip = $request->ip();
+        $user->user_agent = $request->server('HTTP_USER_AGENT');
+        $user->update();
+
         if(Auth::user()->role == 'admin'){
             return redirect()->route('admin#Home');
         }

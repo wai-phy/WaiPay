@@ -175,7 +175,9 @@
             icon: 'success',
             title: "{{session('update')}}",
             showConfirmButton: false,
-            timer: 1500
+            timer: 1500,
+            width: 500,
+            height: 20,
           })
        @endif
 

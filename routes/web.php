@@ -41,7 +41,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('admin/store',[AdminController::class,'store'])->name('admin#store');
             Route::get('admin/edit/{id}',[AdminController::class,'edit'])->name('admin#edit');
             Route::post('admin/update/{id}',[AdminController::class,'update'])->name('admin#update');
-            Route::get('admin/delete/{id}',[AdminController::class,'destroy'])->name('admin#delete');
+            Route::delete('admin/delete/{id}',[AdminController::class,'destroy'])->name('admin#delete');
         });
     });
     
