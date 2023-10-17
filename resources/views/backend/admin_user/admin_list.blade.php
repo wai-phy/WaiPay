@@ -19,9 +19,9 @@
           </a>
       </div>
       <div class="row ">
-        <div class="card table table-bordered">
+        <div class="card">
             <div class="card-body">
-                <table class="display DataTables nowrap" style="width:100%">
+                <table class="table table-bordered display DataTables nowrap" style="width:100%">
                     <thead class="bg-gradient-primary">
                         <tr>
                             <th>Name</th>

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Jenssegers\Agent\Agent;
 
 class AdminController extends Controller
 {
@@ -26,12 +27,41 @@ class AdminController extends Controller
         if ($request->ajax()) {
             $data = User::where('role','admin')->select('*');
             return Datatables::of($data)
+                ->editColumn('user_agent',function($each){
+                    if($each->user_agent){
+                        $agent = new Agent();
+                        $agent->setUserAgent($each->user_agent);
+                        $device = $agent->device();
+                        $platform = $agent->platform();
+                        $browser = $agent->browser();
+    
+                        return "<table class='table table-bordered'>
+                        <tr>
+                          <td>Device</td>
+                          <td> $device </td>
+                        </tr>
+                        <tr>
+                          <td>Platform</td>
+                          <td> $platform </td>
+                        </tr>
+                        <tr>
+                          <td>Browser</td>
+                          <td> $browser </td>
+                        </tr>
+                      </table>";
+    
+                    }
+
+                    return "-";
+                   
+                })
                 ->addColumn('action',function($each){
                     $edit_icon = '<a class="text-warning" href="'.route('admin#edit',$each->id).'"><i class="fa-solid fa-pen-to-square me-3 fs-4"></i></a>';
                     $delete_icon = '<a class="text-danger delete"  data-url="'.route('admin#delete',$each->id).'" data-id="'.$each->id.'" href="#"><i class="fa-solid fa-trash me-3 fs-4"></i></a>';
 
                     return '<div>' . $edit_icon . $delete_icon . '</div>';
                 })
+                ->rawColumns(['user_agent','action'])
                 ->make(true);
 
         }
