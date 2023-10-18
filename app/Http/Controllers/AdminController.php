@@ -56,12 +56,12 @@ class AdminController extends Controller
                     return "-";
                    
                 })
-                // ->editColumn('created_at',function($each){
-                //     return Carbon::parse($each->created_at)->format('Y-m-d H:i:s');
-                // })
-                // ->editColumn('updated_at',function($each){
-                //     return Carbon::parse($each->updated_at)->format('Y-m-d H:i:s');
-                // })
+                ->editColumn('created_at',function($each){
+                    return Carbon::parse($each->created_at)->format('Y-m-d H:i:s');
+                })
+                ->editColumn('updated_at',function($each){
+                    return Carbon::parse($each->updated_at)->format('Y-m-d H:i:s');
+                })
                 ->addColumn('action',function($each){
                     $edit_icon = '<a class="text-warning" href="'.route('admin#edit',$each->id).'"><i class="fa-solid fa-pen-to-square me-3 fs-4"></i></a>';
                     $delete_icon = '<a class="text-danger delete"  data-url="'.route('admin#delete',$each->id).'" data-id="'.$each->id.'" href="#"><i class="fa-solid fa-trash me-3 fs-4"></i></a>';

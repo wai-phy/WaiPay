@@ -29,6 +29,8 @@
                                     <th>Role</th>
                                     <th>IP</th>
                                     <th>User Agent</th>
+                                    <th>Created At</th>
+                                    <th>Updated At</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -91,20 +93,23 @@
                         sortable :false,
                         searchable: false
                     },
-                    // {
-                    //     data: 'created_at',
-                    //     name: 'created_at'
-                    // },
-                    // {
-                    //     data: 'updated_at',
-                    //     name: 'updated_at'
-                    // },
+                    {
+                        data: 'created_at',
+                        name: 'created_at'
+                    },
+                    {
+                        data: 'updated_at',
+                        name: 'updated_at'
+                    },
                     {
                         data: 'action',
                         name: 'action',
                         sortable :false,
                         searchable: false
                     },
+                ],
+                order: [
+                  [7, "desc"]
                 ]
 
 
