@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +43,9 @@ Route::middleware(['auth'])->group(function () {
             Route::get('admin/edit/{id}',[AdminController::class,'edit'])->name('admin#edit');
             Route::post('admin/update/{id}',[AdminController::class,'update'])->name('admin#update');
             Route::delete('admin/delete/{id}',[AdminController::class,'destroy'])->name('admin#delete');
+
+            Route::resource('users', UserController::class);
+            Route::get('users/datatable/serverData',[UserController::class,'serverData']);
         });
     });
     

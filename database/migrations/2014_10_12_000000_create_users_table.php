@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('user_agent')->nullable();
             $table->string('role')->default('user');
             $table->timestamp('email_verified_at')->nullable();
+            $table->timestamp('login_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();

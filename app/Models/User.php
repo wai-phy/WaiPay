@@ -31,6 +31,7 @@ class User extends Authenticatable
         'user_agent',
         'password',
         'role',
+        'login_at',
     ];
 
     /**

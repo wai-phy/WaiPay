@@ -108,6 +108,12 @@
                 <i class="mdi mdi-account-multiple menu-icon"></i>
               </a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{route('users.index')}}">
+                <span class="menu-title">User List</span>
+                <i class="mdi mdi-account-multiple menu-icon"></i>
+              </a>
+            </li>
           </ul>
         </nav>
         <!-- partial -->
