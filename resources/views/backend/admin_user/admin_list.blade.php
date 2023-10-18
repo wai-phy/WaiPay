@@ -107,9 +107,6 @@
                         sortable :false,
                         searchable: false
                     },
-                ],
-                order: [
-                  [7, "desc"]
                 ]
 
 

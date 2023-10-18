@@ -24,6 +24,7 @@ class AuthController extends Controller
         $user = Auth::user();
         $user->ip = $request->ip();
         $user->user_agent = $request->server('HTTP_USER_AGENT');
+        $user->login_at = date('Y-m-d H:i:s');
         $user->update();
 
         if(Auth::user()->role == 'admin'){

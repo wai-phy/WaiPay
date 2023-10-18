@@ -29,6 +29,7 @@
                                     <th>Role</th>
                                     <th>IP</th>
                                     <th>User Agent</th>
+                                    <th>Login At</th>
                                     <th>Created At</th>
                                     <th>Updated At</th>
                                     <th>Action</th>
@@ -92,6 +93,10 @@
                         name: 'user_agent',
                         sortable :false,
                         searchable: false
+                    },
+                    {
+                        data: 'login_at',
+                        name: 'login_at'
                     },
                     {
                         data: 'created_at',
