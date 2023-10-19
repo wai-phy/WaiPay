@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use DataTables;
+// use DataTables;
+use \Yajra\Datatables\Datatables;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Wallet;
