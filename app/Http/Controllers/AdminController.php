@@ -35,7 +35,7 @@ class AdminController extends Controller
                         $device = $agent->device();
                         $platform = $agent->platform();
                         $browser = $agent->browser();
-    
+
                         return "<table class='table table-bordered'>
                         <tr>
                           <td>Device</td>
@@ -50,11 +50,11 @@ class AdminController extends Controller
                           <td> $browser </td>
                         </tr>
                       </table>";
-    
+
                     }
 
                     return "-";
-                   
+
                 })
                 ->editColumn('created_at',function($each){
                     return Carbon::parse($each->created_at)->format('Y-m-d H:i:s');
@@ -97,7 +97,7 @@ class AdminController extends Controller
         $admin_user->save();
 
         return redirect()->route('admin#List')->with('create','Admin Has Been created successfully');
-        
+
     }
 
     //admin edit page
@@ -114,22 +114,16 @@ class AdminController extends Controller
             'email' => 'required|email|unique:users,email,' .$id,
             'phone' => 'required|unique:users,phone,' .$id,
         ]);
-        $admin_data =$this->admin_data($request);
 
-        User::where('id',$id)->update($admin_data);
+        $admin_user =User::findOrFail($id);
+        $admin_user->name = $request->name;
+        $admin_user->email = $request->email;
+        $admin_user->phone = $request->phone;
+        $admin_user->update();
+
         return redirect()->route('admin#List')->with('update','Admin Has Been updated successfully');
-        
+
     }
-
-        //getAdmin Data
-    private function admin_data($request){
-        return [
-
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-        ];
-     }
 
      //admin delete
      public function destroy($id){
@@ -140,6 +134,6 @@ class AdminController extends Controller
      }
 
 
-    
+
 
 }

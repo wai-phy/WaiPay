@@ -16,6 +16,9 @@
                         </div>
                         <form action="{{route('users.store')}}" method="post">
                             @csrf
+                            @error('fail')
+                                    <div class="alert bg-danger alert-danger mt-1 mb-2">{{ $message }}</div>
+                            @enderror
                             <div class="form-group">
                                 <label for="" class="form-label">Name</label>
                                 <input type="text" value="{{old('name')}}" name="name" class="form-control" placeholder="Enter Name">

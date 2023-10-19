@@ -17,6 +17,9 @@
                         <form action="{{route('users.update',$user->id)}}" method="post">
                             @csrf
                             @method('PUT')
+                            @error('fail')
+                                <div class="alert bg-danger alert-danger mt-1 mb-2">{{ $message }}</div>
+                            @enderror
                             <div class="form-group">
                                 <label for="" class="form-label">Name</label>
                                 <input type="text" value="{{$user->name}}" name="name" class="form-control" placeholder="Enter Name">
@@ -53,9 +56,9 @@
             </div>
         </div>
       </div>
-      
+
     </div>
-    
+
     <!-- content-wrapper ends -->
     <!-- partial:partials/_footer.html -->
     <footer class="footer">
@@ -70,7 +73,7 @@
 @section('scripts')
   <script>
     $(document).ready(function(){
-      
+
       })
     </script>
 @endsection
