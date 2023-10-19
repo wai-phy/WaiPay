@@ -114,6 +114,12 @@
                 <i class="mdi mdi-account-multiple menu-icon"></i>
               </a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{route('wallet.index')}}">
+                <span class="menu-title">Wallet</span>
+                <i class="mdi mdi-wallet menu-icon"></i>
+              </a>
+            </li>
           </ul>
         </nav>
         <!-- partial -->
