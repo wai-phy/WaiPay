@@ -1,6 +1,7 @@
 @extends('frontend.layouts.master')
 
 @section('title', 'Register Page')
+@section('extra_css')
 
 
 @section('content')
@@ -62,7 +63,7 @@
                                 </div>
 
                                 <div class="form-group my-3">
-                                    <button class="form-control btn btn-primary" type="submit">register</button>
+                                    <button class="form-control btn-theme btn btn-primary" type="submit">register</button>
                                 </div>
 
                             </form>

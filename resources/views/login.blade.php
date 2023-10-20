@@ -1,7 +1,7 @@
 @extends('frontend.layouts.master')
 
 @section('title','Login Page')
-
+@section('extra_css')
 @section('content')
 <div class="container">
     <div class="row justify-content-center align-items-center" style="height:100vh">
@@ -31,7 +31,7 @@
                             </div>
 
                             <div class="form-group my-3">
-                                <button class="form-control btn btn-primary" type="submit">sign in</button>
+                                <button class="form-control btn-theme btn btn-primary" type="submit">sign in</button>
                             </div>
 
                         </form>
