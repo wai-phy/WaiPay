@@ -29,7 +29,7 @@ Route::middleware(['admin_auth'])->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    
+
     Route::get('dashboard',[AuthController::class,'dashboard'])->name('dashboard');
 
     Route::middleware(['admin_auth'])->group(function () {
@@ -48,13 +48,13 @@ Route::middleware(['auth'])->group(function () {
             Route::get('users/datatable/serverData',[UserController::class,'serverData']);
         });
     });
-    
+
     Route::middleware(['user_auth'])->group(function () {
         Route::get('user/home', function () {
-            return view('userHome');
+            return view('frontend.userHome');
         })->name('user#Home');
     });
-    
+
 });
 
 
