@@ -2,8 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\WalletController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +47,9 @@ Route::middleware(['auth'])->group(function () {
 
             Route::resource('users', UserController::class);
             Route::get('users/datatable/serverData',[UserController::class,'serverData']);
+
+            Route::get('wallet/index',[WalletController::class,'index'])->name('wallet.index');
+            Route::get('wallet/datatable/serverData',[WalletController::class,'serverData']);
         });
     });
 
