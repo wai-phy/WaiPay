@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\WalletController;
+use App\Http\Controllers\Frontend\PageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,9 +55,13 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::middleware(['user_auth'])->group(function () {
-        Route::get('user/home', function () {
-            return view('frontend.userHome');
-        })->name('user#Home');
+        Route::get('/',[PageController::class,'home'])->name('home');
+        Route::get('/profile',[PageController::class,'profile'])->name('profile');
+        Route::get('/update_password',[PageController::class,'updatePassword'])->name('update.password');
+        Route::post('/update_password',[PageController::class,'updatePasswordStore'])->name('store.password');
+
+        Route::get('/wallet',[PageController::class,'wallet'])->name('wallet');
+
     });
 
 });
