@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Models\User;
 use App\Models\Wallet;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -79,9 +80,38 @@ class PageController extends Controller
             return back()->withErrors(['amount'=>'The amount must at least 1000 MMK.'])->withInput();
         }
 
-        $to_phone = $request->to_phone;
+        if($auth_user->phone == $request->to_phone){
+            return back()->withErrors(['to_phone'=>'To Account is Invalid.'])->withInput();
+        }
+
+        $to_account = User::where('phone',$request->to_phone)->first();
+        if(!$to_account){
+            return back()->withErrors(['to_phone'=>'To Account is Invalid.'])->withInput();
+        }
+        $from_account = $auth_user;
         $amount = $request->amount;
         $description = $request->description;
-        return view('frontend.transfer_confirm', compact('auth_user', 'to_phone', 'amount', 'description'));
+        return view('frontend.transfer_confirm', compact('from_account', 'amount', 'description','to_account'));
+    }
+
+    //verify account
+    public function verifyAccount(Request $request){
+        $auth_user = Auth::user();
+
+        if($auth_user->phone != $request->phone){
+            $user = User::where('phone',$request->phone)->first();
+            if($user){
+                return response()->json([
+                    'status'=>'success',
+                    'message'=>'success',
+                    'data' => $user
+                ]);
+            }
+        }
+        
+        return response()->json([
+            'status'=>'fail',
+            'message'=>'Invalid Data',
+        ]); 
     }
 }

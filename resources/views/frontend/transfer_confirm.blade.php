@@ -11,12 +11,13 @@
                     @csrf
                     <div class="form-group">
                         <label for="" class="mb-0"><strong>From</strong></label>
-                        <p class="mb-1 text-muted">{{$auth_user->name}} </p>
-                        <p class="mb-1 text-muted">{{$auth_user->phone}}</p>
+                        <p class="mb-1 text-muted">{{$from_account->name}} </p>
+                        <p class="mb-1 text-muted">{{$from_account->phone}}</p>
                     </div>
                     <div class="form-group">
-                        <label for="" class="mb-0"><strong>To</strong></label>
-                        <p class="mb-1 text-muted">{{$to_phone}} </p>
+                        <label for="" class="mb-0"><strong class="me-2">To</strong></label>
+                        <p class="mb-1 text-muted">{{$to_account->name}}</p>
+                        <p class="mb-1 text-muted">{{$to_account->phone}} </p>
                     </div>
                     <div class="form-group">
                         <label for="" class="mb-0"><strong>Amount (MMK)</strong></label>
