@@ -32,7 +32,7 @@
             <div class="col-12">
                 <div class="card mb-3 function-box">
                     <div class="card-body pe-0">
-                        <a href="#" class="d-flex justify-content-between">
+                        <a href="{{route('transfer')}}" class="d-flex justify-content-between">
                             <span><img src="{{asset('img/money-transfer.png')}}" alt="">Transfer</span>
                             <span class="me-3"><i class="fa-solid fa-angle-right"></i></span>
                         </a>
