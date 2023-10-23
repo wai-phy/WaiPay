@@ -12,7 +12,8 @@ class PageController extends Controller
 {
     // app home 
     public function home(){
-        return view('frontend.user_home');
+        $auth_user = Auth::user();
+        return view('frontend.user_home',compact('auth_user'));
     }
 
     //profile
