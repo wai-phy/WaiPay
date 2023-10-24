@@ -6,8 +6,8 @@
     <div class="transfer">
         <div class="card">
             <div class="card-body">
-                <form action="{{ route('transfer_confirm') }}" method="post" autocomplete="off">
-                    @csrf
+                <form action="{{ route('transfer_confirm') }}" method="get" autocomplete="off">
+                    {{-- @csrf --}}
                     <div class="form-group">
                         <label for="">From</label>
                         <p class="mb-1 text-muted">{{ $auth_user->name }} </p>

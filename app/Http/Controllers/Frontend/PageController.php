@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Models\User;
 use App\Models\Wallet;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -122,15 +123,27 @@ class PageController extends Controller
         if(!$from_account->wallet || !$to_account->wallet){
             return back()->withErrors(['fail'=>'Something went wrong. The given data is invalid']);
         }
-        $from_account_wallet = $from_account->wallet;
-        $from_account_wallet->decrement('amount',$amount);
-        $from_account_wallet->update();
 
-        $to_account_wallet = $to_account->wallet;
-        $to_account_wallet->increment('amount',$amount);
-        $to_account_wallet->update();
+        DB::beginTransaction();
 
-        return redirect('/')->with(['transfer_success'=>'Successfully transfered']);
+        try {
+            $from_account_wallet = $from_account->wallet;
+            $from_account_wallet->decrement('amount',$amount);
+            $from_account_wallet->update();
+    
+            $to_account_wallet = $to_account->wallet;
+            $to_account_wallet->increment('amount',$amount);
+            $to_account_wallet->update();
+            DB::commit();
+            return redirect('/')->with(['transfer_success'=>'Successfully transfered']);
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            return back()->withErrors(['fail'=>'Something wrong' . $e])->withInput();
+        }
+       
     }
 
     //verify account

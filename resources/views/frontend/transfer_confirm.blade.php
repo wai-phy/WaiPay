@@ -6,6 +6,7 @@
     <div class="transfer mb-3">
         <div class="card">
             <div class="card-body">
+                @include('frontend.layouts.flash')
                 <form action="{{ route('transfer_complete') }}" method="post" id="form">
                     @csrf
                     <input type="hidden" name="to_phone" value="{{ $to_account->phone }}">

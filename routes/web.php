@@ -62,7 +62,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/wallet',[PageController::class,'wallet'])->name('wallet');
         Route::get('/transfer',[PageController::class,'transfer'])->name('transfer');
-        Route::post('/transfer_confirm',[PageController::class,'transferConfirm'])->name('transfer_confirm');
+        Route::get('/transfer_confirm',[PageController::class,'transferConfirm'])->name('transfer_confirm');
         Route::post('/transfer_complete',[PageController::class,'transferComplete'])->name('transfer_complete');
 
         Route::get('/to-account-info',[PageController::class,'verifyAccount'])->name('to_verify_info');
