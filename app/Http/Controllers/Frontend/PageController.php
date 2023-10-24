@@ -94,6 +94,45 @@ class PageController extends Controller
         return view('frontend.transfer_confirm', compact('from_account', 'amount', 'description','to_account'));
     }
 
+    // transfer complete
+    public function transferComplete(Request $request){
+        $auth_user = Auth::user();
+        $request->validate(
+            [
+                'to_phone' => 'required',
+                'amount' => 'required|integer'
+            ],
+            ['to_phone.required' => 'To (phone number) field is required..!']
+        );
+        if($request->amount < 1000 ){
+            return back()->withErrors(['amount'=>'The amount must at least 1000 MMK.'])->withInput();
+        }
+        if($auth_user->phone == $request->to_phone){
+            return back()->withErrors(['to_phone'=>'To Account is Invalid.'])->withInput();
+        }
+
+        $to_account = User::where('phone',$request->to_phone)->first();
+        if(!$to_account){
+            return back()->withErrors(['to_phone'=>'To Account is Invalid.'])->withInput();
+        }
+        $from_account = $auth_user;
+        $amount = $request->amount;
+        $description = $request->description;
+
+        if(!$from_account->wallet || !$to_account->wallet){
+            return back()->withErrors(['fail'=>'Something went wrong. The given data is invalid']);
+        }
+        $from_account_wallet = $from_account->wallet;
+        $from_account_wallet->decrement('amount',$amount);
+        $from_account_wallet->update();
+
+        $to_account_wallet = $to_account->wallet;
+        $to_account_wallet->increment('amount',$amount);
+        $to_account_wallet->update();
+
+        return redirect('/')->with(['transfer_success'=>'Successfully transfered']);
+    }
+
     //verify account
     public function verifyAccount(Request $request){
         $auth_user = Auth::user();
@@ -108,10 +147,33 @@ class PageController extends Controller
                 ]);
             }
         }
-        
+
         return response()->json([
             'status'=>'fail',
             'message'=>'Invalid Data',
-        ]); 
+        ]);
+    }
+
+    //password check
+    public function passwordCheck(Request $request){
+        if(!$request->password){
+            return response()->json([
+                'status'=>'fail',
+                'message'=>'Please fill your password.',
+            ]);
+        }
+
+        $auth_user = Auth::user();
+        if(Hash::check($request->password, $auth_user->password)){
+            return response()->json([
+                'status'=>'success',
+                'message'=>'The password is correct',
+            ]);
+        }else{
+            return response()->json([
+                'status'=>'fail',
+                'message'=>'The password is incorrect!',
+            ]);
+        }
     }
 }
