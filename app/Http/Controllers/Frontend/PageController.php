@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Models\User;
 use App\Models\Wallet;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
+use App\Helpers\UUIDGenerate;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -121,7 +123,7 @@ class PageController extends Controller
         $description = $request->description;
 
         if(!$from_account->wallet || !$to_account->wallet){
-            return back()->withErrors(['fail'=>'Something went wrong. The given data is invalid']);
+            return back()->withErrors(['fail'=>'Something went wrong. The given data is invalid.']);
         }
 
         DB::beginTransaction();
@@ -134,6 +136,28 @@ class PageController extends Controller
             $to_account_wallet = $to_account->wallet;
             $to_account_wallet->increment('amount',$amount);
             $to_account_wallet->update();
+
+            $ref_no = UUIDGenerate::refNumber();
+            $from_account_transaction = new Transaction();
+            $from_account_transaction->ref_no = $ref_no;
+            $from_account_transaction->trx_id = UUIDGenerate::trxId();
+            $from_account_transaction->user_id = $from_account->id;
+            $from_account_transaction->type = 2;
+            $from_account_transaction->amount = $amount;
+            $from_account_transaction->source_id = $to_account->id;
+            $from_account_transaction->description = $description ;
+            $from_account_transaction->save();
+
+            $to_account_transaction = new Transaction();
+            $to_account_transaction->ref_no = $ref_no ;
+            $to_account_transaction->trx_id = UUIDGenerate::trxId();
+            $to_account_transaction->user_id = $to_account->id;
+            $to_account_transaction->type = 1;
+            $to_account_transaction->amount = $amount;
+            $to_account_transaction->source_id = $from_account->id;
+            $to_account_transaction->description = $description;
+            $to_account_transaction->save();
+
             DB::commit();
             return redirect('/')->with(['transfer_success'=>'Successfully transfered']);
 
