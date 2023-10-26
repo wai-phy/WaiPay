@@ -91,7 +91,7 @@
                             </a>
                         </div>
                         <div class="col-3 text-center">
-                            <a href="">
+                            <a href="{{route('transaction')}}">
                                 <i class="fa-solid fa-right-left"></i>
                                 <p>Transition</p>
                             </a>

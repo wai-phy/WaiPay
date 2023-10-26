@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'Password Update')
+@section('title', 'Password_Update')
 
 @section('content')
     <div class="update-password">
