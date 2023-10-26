@@ -65,6 +65,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/transfer_confirm',[PageController::class,'transferConfirm'])->name('transfer_confirm');
         Route::post('/transfer_complete',[PageController::class,'transferComplete'])->name('transfer_complete');
 
+        Route::get('/transaction',[PageController::class,'transaction'])->name('transaction');
+        Route::get('/transaction/{trx_id}',[PageController::class,'transactionDetail'])->name('transaction_detail');
+
         Route::get('/to-account-info',[PageController::class,'verifyAccount'])->name('to_verify_info');
         Route::get('/password_check',[PageController::class,'passwordCheck'])->name('password_check');
 

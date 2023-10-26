@@ -132,7 +132,7 @@ class PageController extends Controller
             $from_account_wallet = $from_account->wallet;
             $from_account_wallet->decrement('amount',$amount);
             $from_account_wallet->update();
-    
+
             $to_account_wallet = $to_account->wallet;
             $to_account_wallet->increment('amount',$amount);
             $to_account_wallet->update();
@@ -159,7 +159,7 @@ class PageController extends Controller
             $to_account_transaction->save();
 
             DB::commit();
-            return redirect('/')->with(['transfer_success'=>'Successfully transfered']);
+            return redirect()->route('transaction_detail',$from_account_transaction->trx_id)->with(['transfer_success'=>'Successfully transfered']);
 
         } catch (\Exception $e) {
 
@@ -167,7 +167,21 @@ class PageController extends Controller
 
             return back()->withErrors(['fail'=>'Something wrong' . $e])->withInput();
         }
-       
+
+    }
+
+    //transaction history
+    public function transaction(){
+        $auth_user = Auth::user();
+        $transactions = Transaction::with('user','source')->orderBy('created_at', 'desc')->where('user_id',$auth_user->id)->paginate(5);
+        return view('frontend.transaction',compact('transactions'));
+    }
+
+    //transaction detail
+    public function transactionDetail($trx_id){
+        $auth_user = Auth::user();
+        $transaction = Transaction::with('user','source')->where('user_id',$auth_user->id)->where('trx_id',$trx_id)->first();
+        return view('frontend.transaction_detail',compact('transaction'));
     }
 
     //verify account

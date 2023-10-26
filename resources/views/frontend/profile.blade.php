@@ -61,7 +61,7 @@
                             url: "{{ route('logout') }}",
                             type: 'POST',
                             success: function() {
-                                window.location.replace("{{ route('profile') }}");
+                                window.location.reload("{{ route('profile') }}");
                             }
 
                         })

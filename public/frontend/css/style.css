@@ -270,3 +270,10 @@ a:hover{
     height: 28px;
     margin-right: 8px;
 }
+
+
+/* ---------------------transaction detail */
+
+.transaction-detail img{
+    width: 60px;
+}

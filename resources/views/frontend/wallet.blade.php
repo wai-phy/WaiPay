@@ -5,8 +5,8 @@
 
 @section('content')
     <div class="wallet">
-        <div class="card">
-            <div class="card-body my-card">
+        <div class="card my-card">
+            <div class="card-body">
                 <div class="my-3">
                     <span>Balance</span>
                     <h3>{{number_format($auth_user->wallet ? $auth_user->wallet->amount : 0)}} <span>MMK</span></h3>
