@@ -22,6 +22,10 @@
     {{-- customize css link  --}}
     <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}">
 
+    {{-- date range picker css link --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     @yield('customize_css')
@@ -114,6 +118,16 @@
 
     {{-- sweet alert box  --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    {{-- jscroll pagination --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jscroll/2.4.1/jquery.jscroll.min.js"></script>
+
+    {{-- date range picker link --}}
+    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+
     <script>
         $(document).ready(function() {
             let token = document.head.querySelector('meta[name="csrf-token"]')
