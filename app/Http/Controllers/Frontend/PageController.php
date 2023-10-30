@@ -12,6 +12,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+
+
 class PageController extends Controller
 {
     // app home
@@ -70,8 +72,7 @@ class PageController extends Controller
 
     //transfer confirm
     public function transferConfirm(Request $request)
-    {
-        $auth_user = Auth::user();
+    {  
         $request->validate(
             [
                 'to_phone' => 'required',
@@ -79,11 +80,28 @@ class PageController extends Controller
             ],
             ['to_phone.required' => 'To (phone number) field is required..!']
         );
-        if($request->amount < 1000 ){
+
+        $auth_user = Auth::user();
+        $from_account = $auth_user;
+        $to_phone = $request->to_phone;
+        $amount = $request->amount;
+        $description = $request->description;
+        $hash_value = $request->hash_value;
+
+
+        $str = $to_phone.$amount.$description;
+        $hash_value2 = hash_hmac('sha256', $str, 'waipay123!$#');
+        if($hash_value !== $hash_value2){
+
+            return back()->withErrors(['fail'=>'The given data is invalid.'])->withInput();
+
+        }
+        
+        if($amount < 1000 ){
             return back()->withErrors(['amount'=>'The amount must at least 1000 MMK.'])->withInput();
         }
 
-        if($auth_user->phone == $request->to_phone){
+        if($from_account->phone == $to_phone){
             return back()->withErrors(['to_phone'=>'To Account is Invalid.'])->withInput();
         }
 
@@ -91,15 +109,21 @@ class PageController extends Controller
         if(!$to_account){
             return back()->withErrors(['to_phone'=>'To Account is Invalid.'])->withInput();
         }
-        $from_account = $auth_user;
-        $amount = $request->amount;
-        $description = $request->description;
-        return view('frontend.transfer_confirm', compact('from_account', 'amount', 'description','to_account'));
+
+        if(!$from_account->wallet || !$to_account->wallet){
+            return back()->withErrors(['fail'=>'Something went wrong. The given data is invalid.']);
+        }
+
+        if($from_account->wallet->amount < $amount){
+            return back()->withErrors(['amount'=>'You do not have sufficient amount to transfer !!']);
+        }
+
+        
+        return view('frontend.transfer_confirm', compact('from_account', 'amount', 'description','to_account','hash_value'));
     }
 
     // transfer complete
     public function transferComplete(Request $request){
-        $auth_user = Auth::user();
         $request->validate(
             [
                 'to_phone' => 'required',
@@ -107,23 +131,42 @@ class PageController extends Controller
             ],
             ['to_phone.required' => 'To (phone number) field is required..!']
         );
-        if($request->amount < 1000 ){
+         
+        $auth_user = Auth::user();
+        $from_account = $auth_user;
+        $to_phone = $request->to_phone;
+        $amount = $request->amount;
+        $description = $request->description;
+        $hash_value = $request->hash_value;
+
+
+        $str = $to_phone.$amount.$description;
+        $hash_value2 = hash_hmac('sha256', $str, 'waipay123!$#');
+        if($hash_value !== $hash_value2){
+
+            return back()->withErrors(['fail'=>'The given data is invalid.'])->withInput();
+
+        }
+        
+        if($amount < 1000 ){
             return back()->withErrors(['amount'=>'The amount must at least 1000 MMK.'])->withInput();
         }
-        if($auth_user->phone == $request->to_phone){
+
+        if($from_account->phone == $to_phone){
             return back()->withErrors(['to_phone'=>'To Account is Invalid.'])->withInput();
         }
-
+        
         $to_account = User::where('phone',$request->to_phone)->first();
         if(!$to_account){
             return back()->withErrors(['to_phone'=>'To Account is Invalid.'])->withInput();
         }
-        $from_account = $auth_user;
-        $amount = $request->amount;
-        $description = $request->description;
 
         if(!$from_account->wallet || !$to_account->wallet){
             return back()->withErrors(['fail'=>'Something went wrong. The given data is invalid.']);
+        }
+
+        if($from_account->wallet->amount < $amount){
+            return back()->withErrors(['amount'=>'You do not have sufficient amount to transfer !!']);
         }
 
         DB::beginTransaction();
@@ -237,4 +280,184 @@ class PageController extends Controller
             ]);
         }
     }
-}
+
+    //transfer data hash
+    public function transferHash(Request $request){
+
+        $str = $request->to_phone.$request->amount.$request->description;
+        $hash_value = hash_hmac('sha256', $str, 'waipay123!$#');
+
+        return response()->json([
+            'status'=>'success',
+            'data'=> $hash_value,
+        ]);
+
+    }
+
+    //recieve qr 
+    public function recieveQR(){
+        $auth_user = Auth::user();
+        return view('frontend.recieve_qr',compact('auth_user'));
+    }
+
+    //scan and pay
+    public function scanAndPay(){
+        return view('frontend.scan_and_pay');
+    }
+
+    //scan and pay transfer
+    public function scanAndPayTransfer(Request $request){
+        $from_account = Auth::user();
+        $to_account = User::where('phone',$request->to_phone)->first();
+        if(!$to_account){
+            return back()->withErrors(['fail'=>'QR Scan is Invalid.'])->withInput();
+        }
+
+        return view('frontend.scan_and_pay_transfer', compact('from_account','to_account'));
+    }
+
+    //scan and pay transfer confirm
+    public function scanAndPayTransferConfirm(Request $request)
+    {  
+        $request->validate(
+            [
+                'to_phone' => 'required',
+                'amount' => 'required|integer'
+            ],
+            ['to_phone.required' => 'To (phone number) field is required..!']
+        );
+
+        $auth_user = Auth::user();
+        $from_account = $auth_user;
+        $to_phone = $request->to_phone;
+        $amount = $request->amount;
+        $description = $request->description;
+        $hash_value = $request->hash_value;
+
+
+        $str = $to_phone.$amount.$description;
+        $hash_value2 = hash_hmac('sha256', $str, 'waipay123!$#');
+        if($hash_value !== $hash_value2){
+
+            return back()->withErrors(['fail'=>'The given data is invalid.'])->withInput();
+
+        }
+        
+        if($amount < 1000 ){
+            return back()->withErrors(['amount'=>'The amount must at least 1000 MMK.'])->withInput();
+        }
+
+        if($from_account->phone == $to_phone){
+            return back()->withErrors(['to_phone'=>'To Account is Invalid.'])->withInput();
+        }
+
+        $to_account = User::where('phone',$request->to_phone)->first();
+        if(!$to_account){
+            return back()->withErrors(['to_phone'=>'To Account is Invalid.'])->withInput();
+        }
+
+        if(!$from_account->wallet || !$to_account->wallet){
+            return back()->withErrors(['fail'=>'Something went wrong. The given data is invalid.']);
+        }
+
+        if($from_account->wallet->amount < $amount){
+            return back()->withErrors(['amount'=>'You do not have sufficient amount to transfer !!']);
+        }
+
+        
+        return view('frontend.scan_and_pay_transfer_confirm', compact('from_account', 'amount', 'description','to_account','hash_value'));
+
+        }
+
+    //scan and pay transfer complete
+    public function scanAndPayTransferComplete(Request $request){
+        $request->validate(
+            [
+                'to_phone' => 'required',
+                'amount' => 'required|integer'
+            ],
+            ['to_phone.required' => 'To (phone number) field is required..!']
+        );
+         
+        $auth_user = Auth::user();
+        $from_account = $auth_user;
+        $to_phone = $request->to_phone;
+        $amount = $request->amount;
+        $description = $request->description;
+        $hash_value = $request->hash_value;
+
+
+        $str = $to_phone.$amount.$description;
+        $hash_value2 = hash_hmac('sha256', $str, 'waipay123!$#');
+        if($hash_value !== $hash_value2){
+
+            return back()->withErrors(['fail'=>'The given data is invalid.'])->withInput();
+
+        }
+        
+        if($amount < 1000 ){
+            return back()->withErrors(['amount'=>'The amount must at least 1000 MMK.'])->withInput();
+        }
+
+        if($from_account->phone == $to_phone){
+            return back()->withErrors(['to_phone'=>'To Account is Invalid.'])->withInput();
+        }
+        
+        $to_account = User::where('phone',$request->to_phone)->first();
+        if(!$to_account){
+            return back()->withErrors(['to_phone'=>'To Account is Invalid.'])->withInput();
+        }
+
+        if(!$from_account->wallet || !$to_account->wallet){
+            return back()->withErrors(['fail'=>'Something went wrong. The given data is invalid.']);
+        }
+
+        if($from_account->wallet->amount < $amount){
+            return back()->withErrors(['amount'=>'You do not have sufficient amount to transfer !!']);
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $from_account_wallet = $from_account->wallet;
+            $from_account_wallet->decrement('amount',$amount);
+            $from_account_wallet->update();
+
+            $to_account_wallet = $to_account->wallet;
+            $to_account_wallet->increment('amount',$amount);
+            $to_account_wallet->update();
+
+            $ref_no = UUIDGenerate::refNumber();
+            $from_account_transaction = new Transaction();
+            $from_account_transaction->ref_no = $ref_no;
+            $from_account_transaction->trx_id = UUIDGenerate::trxId();
+            $from_account_transaction->user_id = $from_account->id;
+            $from_account_transaction->type = 2;
+            $from_account_transaction->amount = $amount;
+            $from_account_transaction->source_id = $to_account->id;
+            $from_account_transaction->description = $description ;
+            $from_account_transaction->save();
+
+            $to_account_transaction = new Transaction();
+            $to_account_transaction->ref_no = $ref_no ;
+            $to_account_transaction->trx_id = UUIDGenerate::trxId();
+            $to_account_transaction->user_id = $to_account->id;
+            $to_account_transaction->type = 1;
+            $to_account_transaction->amount = $amount;
+            $to_account_transaction->source_id = $from_account->id;
+            $to_account_transaction->description = $description;
+            $to_account_transaction->save();
+
+            DB::commit();
+            return redirect()->route('transaction_detail',$from_account_transaction->trx_id)->with(['transfer_success'=>'Successfully transfered']);
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            return back()->withErrors(['fail'=>'Something wrong' . $e])->withInput();
+        }
+
+    }
+
+    }

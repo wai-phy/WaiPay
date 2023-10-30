@@ -7,7 +7,7 @@
         <div class="card">
             <div class="card-body">
                 @include('frontend.layouts.flash')
-                <form action="{{ route('transfer_complete') }}" method="post" id="form">
+                <form action="{{ route('scan_and_pay_transfer_complete') }}" method="post" id="form">
                     @csrf
                     <input type="hidden" name="hash_value" value="{{ $hash_value }}">
                     <input type="hidden" name="to_phone" value="{{ $to_account->phone }}">

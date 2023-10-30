@@ -30,7 +30,7 @@ class AuthController extends Controller
         if(Auth::user()->role == 'admin'){
             return redirect()->route('admin#Home');
         }
-        return redirect()->route('home');
+        return view('frontend.user_home');
     }
 
     

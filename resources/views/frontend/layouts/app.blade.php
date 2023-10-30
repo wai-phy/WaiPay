@@ -69,7 +69,7 @@
 
         <div class="bottom-menu">
             <div class="scan-tab">
-                <a href="#">
+                <a href="{{route('scan_and_pay')}}">
                     <div class="inside">
                         <i class="fa-solid fa-qrcode"></i>
                     </div>

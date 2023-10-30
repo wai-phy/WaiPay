@@ -70,6 +70,14 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/to-account-info',[PageController::class,'verifyAccount'])->name('to_verify_info');
         Route::get('/password_check',[PageController::class,'passwordCheck'])->name('password_check');
+        Route::get('/transfer_hash',[PageController::class,'transferHash'])->name('transfer_hash');
+
+        Route::get('/recieve_qr',[PageController::class,'recieveQR'])->name('recieve_qr');
+        Route::get('/scan_and_pay',[PageController::class,'scanAndPay'])->name('scan_and_pay');
+        Route::get('/scan_and_pay_transfer',[PageController::class,'scanAndPayTransfer'])->name('scan_and_pay_transfer');
+        Route::get('/scan_and_pay_transfer/confirm',[PageController::class,'scanAndPayTransferConfirm'])->name('scan_and_pay_transfer_confirm');
+        Route::post('/scan_and_pay_transfer/complete',[PageController::class,'scanAndPayTransferComplete'])->name('scan_and_pay_transfer_complete');
+        
 
     });
 

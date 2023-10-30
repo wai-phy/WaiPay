@@ -14,20 +14,24 @@
                 </div>
             </div>
             <div class="col-6">
-                <div class="card shortcut-box mb-3">
-                    <div class="card-body p-3">
-                        <img src="{{asset('img/scan.png')}}" alt="">
-                        <span>Scan & Pay</span>
+                <a href="{{route('scan_and_pay')}}">
+                    <div class="card shortcut-box mb-3">
+                        <div class="card-body p-3">
+                            <img src="{{asset('img/scan.png')}}" alt="">
+                            <span>Scan & Pay</span>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-6">
-                <div class="card shortcut-box mb-3">
-                    <div class="card-body p-3">
-                        <img src="{{asset('img/qr.png')}}" alt="">
-                        <span>Recieve QR</span>
+                <a href="{{route('recieve_qr')}}">
+                    <div class="card shortcut-box mb-3">
+                        <div class="card-body p-3">
+                            <img src="{{asset('img/qr.png')}}" alt="">
+                            <span>Recieve QR</span>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-12">
                 <div class="card mb-3 function-box">
