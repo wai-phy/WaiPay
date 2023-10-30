@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Notifications\GeneralNotification;
+use Illuminate\Support\Facades\Notification;
 
 
 
@@ -20,6 +22,16 @@ class PageController extends Controller
     public function home()
     {
         $auth_user = Auth::user();
+
+        $title = 'Hello';
+        $message = 'How are you?';
+        $sourceable_id = 1;
+        $sourceable_type = User::class;
+        $web_link = url('profile');
+
+        Notification::send([$auth_user], new GeneralNotification($title,$message,$sourceable_id,$sourceable_type,$web_link));
+
+
         return view('frontend.user_home', compact('auth_user'));
     }
 
