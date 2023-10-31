@@ -80,7 +80,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/scan_and_pay_transfer/complete',[PageController::class,'scanAndPayTransferComplete'])->name('scan_and_pay_transfer_complete');
 
         Route::get('/notification',[NotificationController::class,'notification'])->name('notification');
-        Route::get('/notification/{id}',[NotificationController::class,'notificationStore'])->name('notification_store');
+        Route::get('/notification/{id}',[NotificationController::class,'show'])->name('notification_show');
         
 
     });

@@ -15,4 +15,11 @@ class NotificationController extends Controller
         $notifications = $user->notifications()->paginate(5);
         return view('frontend.notification',compact('notifications'));
     }
+
+    //notification detail show
+    public function show($id){
+        $user = Auth::user();
+        $notification = $user->notifications()->where('id',$id)->first();
+        return view('frontend.notification_details',compact('notification'));
+    }
 }
