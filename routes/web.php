@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\WalletController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Frontend\PageController;
 
 /*
@@ -77,6 +78,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/scan_and_pay_transfer',[PageController::class,'scanAndPayTransfer'])->name('scan_and_pay_transfer');
         Route::get('/scan_and_pay_transfer/confirm',[PageController::class,'scanAndPayTransferConfirm'])->name('scan_and_pay_transfer_confirm');
         Route::post('/scan_and_pay_transfer/complete',[PageController::class,'scanAndPayTransferComplete'])->name('scan_and_pay_transfer_complete');
+
+        Route::get('/notification',[NotificationController::class,'notification'])->name('notification');
+        Route::get('/notification/{id}',[NotificationController::class,'notificationStore'])->name('notification_store');
         
 
     });

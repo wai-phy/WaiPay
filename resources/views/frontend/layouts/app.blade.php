@@ -51,7 +51,7 @@
 
                         </div>
                         <div class="col-2 text-center">
-                            <a href="">
+                            <a href="{{route('notification')}}">
                                 <i class="fa-solid fa-bell"></i>
                             </a>
                         </div>
