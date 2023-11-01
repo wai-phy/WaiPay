@@ -20,6 +20,9 @@ class NotificationController extends Controller
     public function show($id){
         $user = Auth::user();
         $notification = $user->notifications()->where('id',$id)->first();
+        $notification->markAsRead();
+
         return view('frontend.notification_details',compact('notification'));
     }
+
 }

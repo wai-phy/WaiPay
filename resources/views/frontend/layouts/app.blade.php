@@ -52,7 +52,7 @@
                         </div>
                         <div class="col-2 text-center">
                             <a href="{{route('notification')}}">
-                                <i class="fa-solid fa-bell"></i>
+                                <i class="fa-solid fa-bell me-1"></i><span class="position-absolute top-50 start-40 translate-middle badge rounded-circle bg-danger">{{$unread_noti_count}}</span>
                             </a>
                         </div>
                     </div>
