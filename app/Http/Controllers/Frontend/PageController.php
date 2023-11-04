@@ -59,8 +59,12 @@ class PageController extends Controller
             $sourceable_id = $user->id;
             $sourceable_type = User::class;
             $web_link = url('profile');
+            $deep_link = [
+                'target' => 'profile',
+                'parameter' => null
+            ];
 
-            Notification::send([$user], new GeneralNotification($title,$message,$sourceable_id,$sourceable_type,$web_link));
+            Notification::send([$user], new GeneralNotification($title,$message,$sourceable_id,$sourceable_type,$web_link, $deep_link));
 
             return redirect()->route('profile')->with('update', 'Updated Successfully.');
         }
@@ -219,8 +223,12 @@ class PageController extends Controller
             $sourceable_id = $from_account->id;
             $sourceable_type = Transaction::class;
             $web_link = url('/transaction/' . $from_account_transaction->trx_id);
+            $deep_link = [
+                'target' => 'transaction',
+                'parameter' => $from_account_transaction->trx_id
+            ];
 
-            Notification::send([$from_account], new GeneralNotification($title,$message,$sourceable_id,$sourceable_type,$web_link));
+            Notification::send([$from_account], new GeneralNotification($title,$message,$sourceable_id,$sourceable_type,$web_link, $deep_link ));
 
             //from account notification
             $title = 'E-Money Recieved!';
@@ -228,8 +236,12 @@ class PageController extends Controller
             $sourceable_id = $to_account->id;
             $sourceable_type = Transaction::class;
             $web_link = url('/transaction/' . $to_account_transaction->trx_id);
+            $deep_link = [
+                'target' => 'transaction',
+                'parameter' => $to_account_transaction->trx_id
+            ];
 
-            Notification::send([$to_account], new GeneralNotification($title,$message,$sourceable_id,$sourceable_type,$web_link));
+            Notification::send([$to_account], new GeneralNotification($title,$message,$sourceable_id,$sourceable_type,$web_link, $deep_link));
 
 
             DB::commit();
@@ -485,8 +497,12 @@ class PageController extends Controller
              $sourceable_id = $from_account->id;
              $sourceable_type = Transaction::class;
              $web_link = url('/transaction/' . $from_account_transaction->trx_id);
+             $deep_link = [
+                'target' => 'transaction',
+                'parameter' => $from_account_transaction->trx_id
+            ];
  
-             Notification::send([$from_account], new GeneralNotification($title,$message,$sourceable_id,$sourceable_type,$web_link));
+             Notification::send([$from_account], new GeneralNotification($title,$message,$sourceable_id,$sourceable_type,$web_link,$deep_link));
  
              //from account notification
              $title = 'E-Money Recieved!';
@@ -494,8 +510,12 @@ class PageController extends Controller
              $sourceable_id = $to_account->id;
              $sourceable_type = Transaction::class;
              $web_link = url('/transaction/' . $to_account_transaction->trx_id);
+             $deep_link = [
+                'target' => 'transaction',
+                'parameter' => $to_account_transaction->trx_id
+            ];
  
-             Notification::send([$to_account], new GeneralNotification($title,$message,$sourceable_id,$sourceable_type,$web_link));
+             Notification::send([$to_account], new GeneralNotification($title,$message,$sourceable_id,$sourceable_type,$web_link,$deep_link));
  
 
             DB::commit();

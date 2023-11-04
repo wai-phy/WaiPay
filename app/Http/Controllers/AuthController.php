@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Wallet;
 use Illuminate\Http\Request;
+use App\Helpers\UUIDGenerate;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -30,6 +32,7 @@ class AuthController extends Controller
         if(Auth::user()->role == 'admin'){
             return redirect()->route('admin#Home');
         }
+        
         return view('frontend.user_home');
     }
 
