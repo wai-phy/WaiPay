@@ -30,5 +30,9 @@ Route::namespace('Api')->group(function(){
         Route::get('/notification',[PageController::class,'notification']);
         Route::get('/notification/{id}',[PageController::class,'notificationDetail']);
 
+        Route::get('/to-account-info',[PageController::class,'verifyAccount']);
+        Route::get('transfer/confirm',[PageController::class,'transferConfirm']);
+        Route::post('transfer/complete',[PageController::class,'transferComplete']);
+
     });
 });
