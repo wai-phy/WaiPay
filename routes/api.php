@@ -34,5 +34,10 @@ Route::namespace('Api')->group(function(){
         Route::get('transfer/confirm',[PageController::class,'transferConfirm']);
         Route::post('transfer/complete',[PageController::class,'transferComplete']);
 
+        Route::get('/scan_and_pay_transfer',[PageController::class,'scanAndPayTransfer']);
+        Route::get('/scan_and_pay_transfer/confirm',[PageController::class,'scanAndPayTransferConfirm']);
+        Route::post('/scan_and_pay_transfer/complete',[PageController::class,'scanAndPayTransferComplete']);
+
+
     });
 });

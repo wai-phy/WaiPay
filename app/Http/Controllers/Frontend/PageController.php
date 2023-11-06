@@ -410,7 +410,7 @@ class PageController extends Controller
         
         return view('frontend.scan_and_pay_transfer_confirm', compact('from_account', 'amount', 'description','to_account','hash_value'));
 
-        }
+    }
 
     //scan and pay transfer complete
     public function scanAndPayTransferComplete(Request $request){
