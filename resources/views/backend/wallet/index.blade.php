@@ -11,6 +11,10 @@
                     </span>Wallet List
                 </h3>
             </div>
+            <div class="mb-3">
+                <a href="{{route('add_amount_wallet')}}" class="btn btn-success">Add Amount</a>
+                <a href="" class="btn btn-danger">Reduce Amount</a>
+            </div>
             <div class="row ">
                 <div class="card">
                     <div class="card-body">
@@ -38,9 +42,7 @@
         <footer class="footer">
             <div class="container-fluid d-flex justify-content-between">
                 <span class=" d-block text-center text-sm-start d-sm-inline-block">@Copyright 2023 By Wai Phyo Aung</span>
-                <span class="float-none float-sm-end mt-1 mt-sm-0 text-end"> Free <a
-                        href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap admin
-                        template</a> from Bootstrapdash.com</span>
+                <span class="float-none float-sm-end mt-1 mt-sm-0 text-end">Developer By Wai Phyo Aung</span>
             </div>
         </footer>
         <!-- partial -->
